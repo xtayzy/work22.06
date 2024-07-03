@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+{% if not request.user.is_authenticated %}
+    <div>
+        <a href="{% url 'sign-up' %}">
+            <button>Зарегестрироваться</button>
+        </a>
+    </div>
+    <p></p>
+    <div>
+        <a href="{% url 'sign-in' %}">
+            <button>Войти</button>
+        </a>
+    </div>
+    {% else %}
+        <div>
+            <a href="{% url 'logout' %}">
+                <button>Выйти</button>
+            </a>
+        </div>
+{% endif %}
+<h2>Категории</h2>
+{% if request.user.is_authenticated %}
+    <form action="" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button>Добавить категорию</button>
+    </form>
+{% endif %}
+{% for cat in categories %}
+    <div>
+        <a href="{% url 'category' id=cat.id %}">{{ cat.name }}</a>
+    </div>
+{% endfor %}
+<h2>Авторы</h2>
+{% for author in authors %}
+    <div>
+        <a href="{% url 'author' id=author.id %}">{{ author.username }}</a>
+    </div>
+{% endfor %}
+<h2>Посты</h2>
+{% if request.user.is_authenticated %}
+    <form action="{% url 'add' %}" method="post">
+        {% csrf_token %}
+        {{ post_form.as_p }}
+        <button>Добавить пост</button>
+    </form>
+{% endif %}
+{% for post in posts %}
+    <div>
+        <a href="{% url 'post' id=post.id %}">{{ post.title }}</a>
+    </div>
+{% endfor %}
+</body>
+</html>

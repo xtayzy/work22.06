@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .block {
+            display: flex;
+            flex-direction: column;
+            border: 1px solid black;
+            padding: 10px;
+            margin-bottom: 10px;
+            width: 200px ;
+            max-width: 900px;
+        }
+    </style>
+</head>
+<body>
+<a href="{% url 'index' %}">index</a>
+<div class="block">
+    <div>title: {{ post.title }}</div>
+    <div>author: {{ post.author.username }}</div>
+    <div>content: {{ post.content }}</div>
+    <div>category: {{ post.category.name }}</div>
+</div>
+{% if request.user.is_authenticated %}
+    <form action="" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button>Добавить коментарий</button>
+    </form>
+{% endif %}
+<h2>Коментарии</h2>
+{% for comment in comments %}
+    <div class="block">
+        {{ comment.content }}
+    </div>
+{% endfor %}
+</body>
+</html>
